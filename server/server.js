@@ -4,12 +4,25 @@ const publicPath = path.join(__dirname ,'../public');
 //console.log(publicPath);
 const express = require('express');
 const port = process.env.PORT || 3000;
+const http = require('http');
+const socketIO = require('socket.io');
 
 var app = express();
+var server = http.createServer(app); //express implicitly invokes this in app.listen
+var io = socketIO(server);
+
 
 app.use(express.static(publicPath)); //Serve static files
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+    console.log('New User Connected');
+
+    socket.on('disconnect',() => {
+        console.log('User was disconnected');
+    });
+});
+
+server.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
