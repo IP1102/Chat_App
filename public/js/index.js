@@ -5,7 +5,7 @@ console.log('User was Connected');
 });
 
 socket.on('disconnect',function ()  {
-console.log('User was Connected');
+console.log('User was Disconnected');
 });
 
 socket.on('newMessage', function (message) {
