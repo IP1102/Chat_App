@@ -67,7 +67,14 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect',() => {
-        console.log('User was disconnected');
+        //console.log('User was disconnected');
+        var user = users.removeUser(socket.id);
+
+        if(user) {
+            io.to(user.room).emit('updateUserList',users.getUserList(user.room));
+            io.to(user.room).emit('newMessage', generateMessage('Admin',`${user.name} has left`));
+        }
+
 
     });
 });
